@@ -31,19 +31,28 @@ if( !init.page) {
 } else if(init.page) {
     var h = getElementsByTagNames('h1,h2,h3,h4,h5',getHeader);
     var container = document.createElement(olul);
-    var cList = document.create()
     var first = document.createElement("li");
+    first.id  = "header0";
     first.innerHTML = h[0].innerHTML.replace(/<\/?[^>]+>/g,"");
+    container.appendChild(first);
+    putHeader.appendChild(container);
     for(var i=1; i<h.length; i++) {
+        var cLi = document.createElement("li");
+        var cLink = document.createElement("a");
+        cLink.innerHTML =  h[i].innerHTML.replace(/<\/?[^>]+>/g,"");
+        cLi.appendChild(cLink);
+        cLi.id= "header" + i;      // 现在 重要是cLI的位置
         switch(i) {
-            case h[i].nodeName == h[i-1].nodeName :    // here is nodeName. nodeName.subString(1) -
-                var q = document.createElement("li");
-                q.innerHTML = h[i].innerHTML.replace(/<\/?[^>]+>/g,"");
-                //.appendChild(q);
+            case h[i].nodeName == h[i-1].nodeName :    // here is nodeName. nodeName.subString(1) -  需要精简判断条件
+                //var q = document.createElement("li");
+                //cLi.innerHTML = h[i].innerHTML.replace(/<\/?[^>]+>/g,"");
+                document.getElementById("header"+i-1).parentNode.appendChild(cLi);
                 break;
             case h[i].nodeName < h[i-1].nodeName :
                 var w = document.createElement(olul);
-                var x;
+                //cLi.innerHTML = h[i].innerHTML.replace(/<\/?[^>]+>/g,"");
+                w.appendChild(cLi);   // 这里的w怎么放位置
+                document.getElementById("header" + i-1).appendChild(w);
                 break;
             case h[i].nodeName > h[i-1].nodeName :
                 break;
