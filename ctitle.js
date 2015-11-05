@@ -113,6 +113,6 @@ var result2 = getElementsByTagNames('h2,h3',getHeader);
 console.log(result[3].parentNode);
 console.log(typeof result[6].nodeName);
 console.log(result[6].nodeName);
-console.log(result);
+console.log(result);       // 一个方法是把所有的结果都分成数组，单独结构在加入文档
 console.log(result1);
 console.log(result2);
