@@ -6,10 +6,7 @@
 var defaults = {
     get : "con",
     put : "toc",
-    page : true,
-    only : "h2",
-    headers : "h1,h2,h3,h4",
-    //indent : "1em",
+    headers : "h1,h2,h3,h4,h5",
 }
 var getHeader = document.getElementById(defaults.con);
 var toc = document.getElementById(defaults.put);
@@ -68,10 +65,10 @@ for(var i=0; i<h.length; i++) {
     }
 }
 
-for(var j=0; j<h.length; j++) {
-    toc.getElementsByTagName("a")[j].onclick = (function() {
-        h[j].scrollIntoView();
-    })(j)
-    //console.log(toc.getElementsByTagName("li")[j].firstChild.nodeValue)
-}
+//for(var j=0; j<h.length; j++) {
+//    toc.getElementsByTagName("a")[j].onclick = (function() {
+//        h[j].scrollIntoView();
+//    })(j)
+//    //console.log(toc.getElementsByTagName("li")[j].firstChild.nodeValue)
+//}
 

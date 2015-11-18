@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>as what  i thought</title>
+    <script>
+        window.onload = function () {
+            var toc = "";
+            var level = 0;
+
+            document.getElementById("contents").innerHTML =
+                    document.getElementById("contents").innerHTML.replace(
+                            /<h([\d])>([^<]+)<\/h([\d])>/gi,
+                            function (str, openLevel, titleText, closeLevel) {
+                                if (openLevel != closeLevel) {
+                                    return str;
+                                }
+
+                                if (openLevel > level) {
+                                    toc += (new Array(openLevel - level + 1)).join("<ul>");
+                                } else if (openLevel < level) {
+                                    toc += (new Array(level - openLevel + 1)).join("</ul>");
+                                }
+
+                                level = parseInt(openLevel);
+
+                                var anchor = titleText.replace(/ /g, "_");
+                                toc += "<li><a href=\"#" + anchor + "\">" + titleText
+                                        + "</a></li>";
+
+                                return "<h" + openLevel + "><a name=\"" + anchor + "\">"
+                                        + titleText + "</a></h" + closeLevel + ">";
+                            }
+                    );
+
+            if (level) {
+                toc += (new Array(level + 1)).join("</ul>");
+            }
+
+            document.getElementById("toc").innerHTML += toc;
+        };
+    </script>
+</head>
+<body>
+<div id="toc">
+<h3>Table of Contents</h3>
+</div>
+<hr/>
+<div id="contents">
+    <h1>Fruits</h1>
+    <h2>Red Fruits</h2>
+    <h3>Apple</h3>
+    <h4>444444</h4>
+    <h5>555555555555</h5>
+    <h3>Raspberry</h3>
+    <h2>Orange Fruits</h2>
+    <h3>Orange</h3>
+    <h3>Tangerine</h3>
+    <h1>Vegetables</h1>
+    <h2>Vegetables Which Are Actually Fruits</h2>
+    <h3>Tomato</h3>
+    <h3>Eggplant</h3>
+</div>
+</body>
+</html>
