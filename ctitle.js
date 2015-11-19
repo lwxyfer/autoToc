@@ -99,7 +99,7 @@ function getElementsByTagNames(list,obj) {
             return a.sourceIndex - b.sourceIndex;
         });
     }
-    else if (testNode.compareDocumentPosition) {
+    else if (testNode.compareDocumentPosition) {        // compareDocumentPosition ¡Ω∏ˆ Ù–‘
         resultArray.sort(function (a,b) {
             return 3 - (a.compareDocumentPosition(b) & 6);
         });

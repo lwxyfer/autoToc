@@ -1,6 +1,10 @@
 (function (window) {
     'use strict';
 
+
+    /*
+    覆盖默认的属性值
+     */
     var extendObj = function (src, target) {
         for (var prop in target) {
             if (target.hasOwnProperty(prop) && target[prop]) {
@@ -11,6 +15,9 @@
         return src;
     };
 
+    /*
+    获得所有的Header
+     */
     var getHeaders = function (selector, scope) {
         var ret = [];
         var target = document.querySelectorAll(scope);
@@ -23,6 +30,9 @@
         return ret;
     };
 
+    /*
+
+     */
     var getLevel = function (header) {
         if (typeof header !== 'string') {
             return 0;
@@ -32,6 +42,9 @@
         return decs ? Math.min.apply(null, decs) : 1;
     };
 
+    /*
+    创建列表项
+     */
     var createList = function (wrapper, count) {
         while (count--) {
             wrapper = wrapper.appendChild(
@@ -56,13 +69,16 @@
         return currentWrapper;
     };
 
+    /*
+    加入锚点，定位
+     */
     var setAttrs = function (overwrite, prefix) {
         return function (src, target, index) {
             var content = src.textContent;
             var pre = prefix + '-' + index;
             target.textContent = content;
 
-            var id = overwrite ? pre : (src.id || pre);
+            var id = overwrite ? pre : (src.id || pre);   //避免污染header本身的id
 
             id = encodeURIComponent(id);
 
@@ -71,29 +87,34 @@
         };
     };
 
+    /*
+    主要部分：
+    传入覆盖后的option
+
+     */
     var buildTOC = function (options) {
         var selector = options.selector;
         var scope = options.scope;
 
         var ret = document.createElement('ul');
         var wrapper = ret;
-        var lastLi = null;
-
+        //var lastLi = null;
+        var lastLi = ret;      // 应该其进行初始化，
         var _setAttrs = setAttrs(options.overwrite, options.prefix);
 
         getHeaders(selector, scope).reduce(function (prev, cur, index) {
             var currentLevel = getLevel(cur.tagName);
-            var offset = currentLevel - prev;
+            var offset = currentLevel - prev;        //这里的offset就如stack里说的level
 
             if (offset > 0) {
-                wrapper = createList(lastLi, offset);
+                wrapper = createList(lastLi, offset);   //此处忽略了首个标题是H2或更小的header，以为lastLi不会为null
             }
 
             if (offset < 0) {
                 wrapper = jumpBack(wrapper, -offset * 2);
             }
 
-            wrapper = wrapper || ret;
+            wrapper = wrapper || ret;  // ===0的情况
 
             var li = document.createElement('li');
             var a = document.createElement('a');
@@ -126,7 +147,7 @@
             throw new TypeError('selector must be a string');
         }
 
-        if (!selector.match(/^(?:h[1-6],?\s*)+$/g)) {
+        if (!selector.match(/^(?:h[1-6],?\s*)+$/g)) {      // 学学别人的正则怎么写的
             throw new TypeError('selector must contains only h1-6');
         }
 
