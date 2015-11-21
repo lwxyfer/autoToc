@@ -39,7 +39,7 @@
         }
 
         var decs = header.match(/\d/g);
-        return decs ? Math.min.apply(null, decs) : 1;
+        return decs ? Math.min.apply(null, decs) : 1;//若果不是选择h1，h2而是H2，H3，可以返回最小的header数值
     };
 
     /*
@@ -70,6 +70,7 @@
     };
 
     /*
+    
     加入锚点，定位
      */
     var setAttrs = function (overwrite, prefix) {
@@ -111,7 +112,7 @@
             }
 
             if (offset < 0) {
-                wrapper = jumpBack(wrapper, -offset * 2);
+                wrapper = jumpBack(wrapper, -offset * 2); // *2  上面是一个li然后ul ，所以*2
             }
 
             wrapper = wrapper || ret;  // ===0的情况
